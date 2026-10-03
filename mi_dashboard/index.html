@@ -13,22 +13,31 @@
 <body>
 
     <header class="header">
+
         <div>
-            <h1>Unitree Go2</h1>
-            <p>Dashboard de telemetría</p>
+            <h1 id="titulo-robot">Unitree</h1>
+            <p>Dashboard de telemetría en tiempo real</p>
         </div>
 
         <div id="estado" class="estado desconectado">
             Desconectado
         </div>
+
     </header>
+
 
     <main class="dashboard">
 
-        <!-- Información general -->
+        <!-- =========================
+             FILA SUPERIOR
+             ========================= -->
+
         <section class="resumen">
 
-            <div class="card">
+            <!-- BATERÍA -->
+
+            <div class="card card-resumen">
+
                 <h2>Batería</h2>
 
                 <div class="valor-grande">
@@ -36,80 +45,335 @@
                 </div>
 
                 <div class="barra">
-                    <div id="barra-bateria" class="barra-progreso"></div>
+                    <div
+                        id="barra-bateria"
+                        class="barra-progreso">
+                    </div>
                 </div>
+
             </div>
 
 
-            <div class="card">
-                <h2>Inclinación</h2>
+            <!-- ORIENTACIÓN -->
 
-                <p>
-                    Roll:
-                    <strong><span id="roll">--</span>°</strong>
-                </p>
+            <div class="card card-resumen">
 
-                <p>
-                    Pitch:
-                    <strong><span id="pitch">--</span>°</strong>
-                </p>
+                <h2>Orientación</h2>
 
-                <p>
-                    Yaw:
-                    <strong><span id="yaw">--</span>°</strong>
-                </p>
+                <div class="orientacion">
+
+                    <div>
+                        <span class="etiqueta">
+                            Roll
+                        </span>
+
+                        <strong>
+                            <span id="roll">--</span>°
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span class="etiqueta">
+                            Pitch
+                        </span>
+
+                        <strong>
+                            <span id="pitch">--</span>°
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span class="etiqueta">
+                            Yaw
+                        </span>
+
+                        <strong>
+                            <span id="yaw">--</span>°
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="brujula">
+
+                    <span class="norte">
+                        N
+                    </span>
+
+                    <div
+                        id="flecha-yaw"
+                        class="flecha-yaw">
+                        ↑
+                    </div>
+
+                </div>
+
             </div>
 
 
-            <div class="card">
+            <!-- SIMULACIÓN -->
+
+            <div class="card card-resumen">
+
                 <h2>Simulación</h2>
 
                 <div class="valor-grande">
                     <span id="tiempo">--</span>
                 </div>
 
-                <p>segundos</p>
+                <span class="unidad">
+                    segundos
+                </span>
+
+                <div class="info-robot">
+
+                    <span>
+                        Motores
+                    </span>
+
+                    <strong id="cantidad-motores">
+                        --
+                    </strong>
+
+                </div>
+
             </div>
 
         </section>
 
 
-        <!-- Patas -->
-        <section class="card">
-            <h2>Apoyo de patas</h2>
+        <!-- =========================
+             PATAS + ACELERÓMETRO
+             ========================= -->
 
-            <div class="robot">
+        <section class="fila-media">
 
-                <div>
-                    <span>FL</span>
-                    <div id="pata-FL" class="pata"></div>
+            <!-- PATAS -->
+
+            <div
+                id="seccion-patas"
+                class="card">
+
+                <h2>Apoyo de patas</h2>
+
+                <div class="robot-vista">
+
+                    <div class="frente-robot">
+                        ↑ FRENTE
+                    </div>
+
+
+                    <div class="cuerpo-robot">
+
+                        <div class="grupo-pata">
+
+                            <span>FL</span>
+
+                            <div
+                                id="pata-FL"
+                                class="pata">
+                            </div>
+
+                        </div>
+
+
+                        <div class="grupo-pata">
+
+                            <span>FR</span>
+
+                            <div
+                                id="pata-FR"
+                                class="pata">
+                            </div>
+
+                        </div>
+
+
+                        <div class="grupo-pata">
+
+                            <span>RL</span>
+
+                            <div
+                                id="pata-RL"
+                                class="pata">
+                            </div>
+
+                        </div>
+
+
+                        <div class="grupo-pata">
+
+                            <span>RR</span>
+
+                            <div
+                                id="pata-RR"
+                                class="pata">
+                            </div>
+
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <div>
-                    <span>FR</span>
-                    <div id="pata-FR" class="pata"></div>
-                </div>
 
-                <div>
-                    <span>RL</span>
-                    <div id="pata-RL" class="pata"></div>
-                </div>
+                <div class="leyenda">
 
-                <div>
-                    <span>RR</span>
-                    <div id="pata-RR" class="pata"></div>
+                    <span>
+                        <span
+                            class="punto punto-apoyada">
+                        </span>
+
+                        Apoyada
+                    </span>
+
+
+                    <span>
+                        <span
+                            class="punto punto-aire">
+                        </span>
+
+                        En el aire
+                    </span>
+
                 </div>
 
             </div>
 
-            <p class="leyenda">
-                Verde = apoyada · Gris = en el aire
-            </p>
+
+            <!-- ACELERÓMETRO -->
+
+            <div class="card">
+
+                <h2>Acelerómetro</h2>
+
+                <div class="acelerometro">
+
+                    <div class="dato-aceleracion">
+
+                        <span>
+                            Eje X
+                        </span>
+
+                        <strong id="ax">
+                            --
+                        </strong>
+
+                        <small>
+                            m/s²
+                        </small>
+
+                    </div>
+
+
+                    <div class="dato-aceleracion">
+
+                        <span>
+                            Eje Y
+                        </span>
+
+                        <strong id="ay">
+                            --
+                        </strong>
+
+                        <small>
+                            m/s²
+                        </small>
+
+                    </div>
+
+
+                    <div class="dato-aceleracion">
+
+                        <span>
+                            Eje Z
+                        </span>
+
+                        <strong id="az">
+                            --
+                        </strong>
+
+                        <small>
+                            m/s²
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </section>
 
 
-        <!-- Motores -->
+        <!-- =========================
+             GRÁFICO
+             ========================= -->
+
+        <section class="card card-grafico">
+
+            <div class="cabecera-grafico">
+
+                <div>
+
+                    <h2>
+                        Ángulo del motor
+                    </h2>
+
+                    <span class="subtitulo">
+                        Historial en tiempo real
+                    </span>
+
+                </div>
+
+
+                <div class="selector-contenedor">
+
+                    <label for="selector-motor">
+                        Motor:
+                    </label>
+
+                    <select id="selector-motor">
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <div class="grafico-contenedor">
+
+                <canvas
+                    id="grafico-motor"
+                    width="1000"
+                    height="240">
+                </canvas>
+
+            </div>
+
+
+            <div class="valor-actual">
+
+                Ángulo actual:
+
+                <strong>
+                    <span id="angulo-actual">--</span>°
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             TABLA DE MOTORES
+             ========================= -->
+
         <section class="card">
+
             <h2>Motores</h2>
 
             <div class="tabla-contenedor">
@@ -117,6 +381,7 @@
                 <table>
 
                     <thead>
+
                         <tr>
                             <th>Motor</th>
                             <th>Ángulo</th>
@@ -124,7 +389,9 @@
                             <th>Torque</th>
                             <th>Temperatura</th>
                         </tr>
+
                     </thead>
+
 
                     <tbody id="tabla-motores">
                     </tbody>
@@ -132,9 +399,16 @@
                 </table>
 
             </div>
+
         </section>
 
     </main>
+
+
+    <footer>
+        TP05 · Desarrollo de Aplicaciones II · UADE
+    </footer>
+
 
     <script src="js/config.js"></script>
     <script src="js/app.js"></script>

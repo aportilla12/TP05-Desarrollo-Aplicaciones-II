@@ -2,49 +2,65 @@
     box-sizing: border-box;
 }
 
+
 body {
     margin: 0;
+
     font-family: Arial, sans-serif;
+
     background: #f3f4f6;
     color: #1f2937;
 }
 
 
-/* HEADER */
+/* =========================
+   HEADER
+   ========================= */
 
 .header {
+    height: 70px;
+
     background: #111827;
     color: white;
 
-    padding: 20px 40px;
+    padding: 12px 30px;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+
 .header h1 {
     margin: 0;
+    font-size: 24px;
 }
+
 
 .header p {
-    margin: 5px 0 0;
+    margin: 3px 0 0;
+
     color: #9ca3af;
+
+    font-size: 13px;
 }
 
-
-/* ESTADO */
 
 .estado {
-    padding: 8px 16px;
+    padding: 7px 15px;
+
     border-radius: 20px;
+
+    font-size: 13px;
     font-weight: bold;
 }
+
 
 .conectado {
     background: #16a34a;
     color: white;
 }
+
 
 .desconectado {
     background: #dc2626;
@@ -52,13 +68,47 @@ body {
 }
 
 
-/* DASHBOARD */
+/* =========================
+   DASHBOARD
+   ========================= */
 
 .dashboard {
-    max-width: 1200px;
+    max-width: 1250px;
+
     margin: auto;
-    padding: 30px;
+
+    padding: 18px;
 }
+
+
+/* =========================
+   CARDS
+   ========================= */
+
+.card {
+    background: white;
+
+    padding: 16px;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 2px 7px
+        rgba(0, 0, 0, 0.08);
+}
+
+
+.card h2 {
+    margin:
+        0 0 12px;
+
+    font-size: 18px;
+}
+
+
+/* =========================
+   FILA SUPERIOR
+   ========================= */
 
 .resumen {
     display: grid;
@@ -66,45 +116,43 @@ body {
     grid-template-columns:
         repeat(3, 1fr);
 
-    gap: 20px;
+    gap: 14px;
 
-    margin-bottom: 20px;
+    margin-bottom: 14px;
 }
 
 
-/* CARDS */
-
-.card {
-    background: white;
-
-    padding: 24px;
-
-    border-radius: 12px;
-
-    margin-bottom: 20px;
-
-    box-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.08);
+.card-resumen {
+    min-height: 190px;
 }
 
-.card h2 {
-    margin-top: 0;
-}
-
-
-/* VALORES */
 
 .valor-grande {
-    font-size: 40px;
+    font-size: 36px;
     font-weight: bold;
+
+    margin-top: 15px;
 }
 
 
-/* BATERÍA */
+.unidad {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   BATERÍA
+   ========================= */
 
 .barra {
     width: 100%;
-    height: 15px;
+    height: 12px;
 
     background: #e5e7eb;
 
@@ -115,75 +163,436 @@ body {
     margin-top: 15px;
 }
 
-.barra-progreso {
-    height: 100%;
 
-    width: 0%;
+.barra-progreso {
+    width: 0;
+    height: 100%;
 
     background: #22c55e;
 
-    transition: width 0.3s;
+    transition:
+        width 0.3s;
 }
 
 
-/* PATAS */
+/* =========================
+   ORIENTACIÓN
+   ========================= */
 
-.robot {
+.orientacion {
     display: grid;
 
     grid-template-columns:
-        repeat(2, 120px);
+        repeat(3, 1fr);
 
-    gap: 50px 150px;
-
-    justify-content: center;
-
-    margin: 40px;
+    gap: 6px;
 }
 
-.robot > div {
+
+.orientacion > div {
+    background: #f9fafb;
+
+    padding: 8px 4px;
+
+    border-radius: 7px;
+
     text-align: center;
+}
+
+
+.orientacion .etiqueta {
+    display: block;
+
+    color: #6b7280;
+
+    font-size: 11px;
+}
+
+
+.orientacion strong {
+    display: block;
+
+    margin-top: 3px;
+
+    font-size: 15px;
+}
+
+
+.orientacion strong span {
+    display: inline;
+
+    color: inherit;
+
+    font-size: inherit;
+}
+
+
+.brujula {
+    width: 70px;
+    height: 70px;
+
+    margin:
+        12px auto 0;
+
+    border:
+        2px solid #d1d5db;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+}
+
+
+.norte {
+    position: absolute;
+
+    top: 3px;
+
+    color: #6b7280;
+
+    font-size: 9px;
+}
+
+
+.flecha-yaw {
+    color: #2563eb;
+
+    font-size: 35px;
+
+    line-height: 1;
+
+    transition:
+        transform 0.1s linear;
+}
+
+
+/* =========================
+   INFO ROBOT
+   ========================= */
+
+.info-robot {
+    margin-top: 15px;
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    align-items: center;
+
+    padding: 8px 10px;
+
+    background: #f9fafb;
+
+    border-radius: 7px;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+
+.info-robot strong {
+    color: #111827;
+
+    font-size: 16px;
+}
+
+
+/* =========================
+   FILA MEDIA
+   ========================= */
+
+.fila-media {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 14px;
+
+    margin-bottom: 14px;
+}
+
+
+/* =========================
+   PATAS
+   ========================= */
+
+.robot-vista {
+    max-width: 280px;
+
+    margin: auto;
+}
+
+
+.frente-robot {
+    margin-bottom: 5px;
+
+    text-align: center;
+
+    color: #9ca3af;
+
+    font-size: 10px;
+}
+
+
+.cuerpo-robot {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap:
+        20px 90px;
+
+    padding:
+        15px 25px;
+
+    background: #e5e7eb;
+
+    border-radius: 45px;
+}
+
+
+.grupo-pata {
+    text-align: center;
+
+    font-size: 12px;
     font-weight: bold;
 }
 
-.pata {
-    width: 60px;
-    height: 60px;
 
-    margin: 10px auto;
+.pata {
+    width: 36px;
+    height: 36px;
+
+    margin:
+        4px auto;
+
+    border:
+        3px solid white;
 
     border-radius: 50%;
 
     background: #9ca3af;
 
-    transition: background 0.2s;
+    box-shadow:
+        0 1px 4px
+        rgba(0, 0, 0, 0.2);
+
+    transition:
+        background 0.15s;
 }
+
 
 .pata.apoyada {
     background: #22c55e;
 }
 
+
 .leyenda {
-    text-align: center;
+    display: flex;
+
+    justify-content: center;
+
+    gap: 20px;
+
+    margin-top: 8px;
+
     color: #6b7280;
+
+    font-size: 11px;
 }
 
 
-/* TABLA */
+.punto {
+    display: inline-block;
+
+    width: 8px;
+    height: 8px;
+
+    margin-right: 4px;
+
+    border-radius: 50%;
+}
+
+
+.punto-apoyada {
+    background: #22c55e;
+}
+
+
+.punto-aire {
+    background: #9ca3af;
+}
+
+
+/* =========================
+   ACELERÓMETRO
+   ========================= */
+
+.acelerometro {
+    height: calc(100% - 30px);
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 10px;
+
+    align-items: center;
+}
+
+
+.dato-aceleracion {
+    padding: 18px 8px;
+
+    background: #f9fafb;
+
+    border-radius: 8px;
+
+    text-align: center;
+}
+
+
+.dato-aceleracion span {
+    display: block;
+
+    color: #6b7280;
+
+    font-size: 12px;
+}
+
+
+.dato-aceleracion strong {
+    display: block;
+
+    margin: 7px 0 3px;
+
+    font-size: 23px;
+}
+
+
+.dato-aceleracion small {
+    color: #9ca3af;
+
+    font-size: 10px;
+}
+
+
+/* =========================
+   GRÁFICO
+   ========================= */
+
+.card-grafico {
+    margin-bottom: 14px;
+}
+
+
+.cabecera-grafico {
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    align-items: center;
+
+    margin-bottom: 10px;
+}
+
+
+.cabecera-grafico h2 {
+    margin-bottom: 2px;
+}
+
+
+.subtitulo {
+    color: #6b7280;
+
+    font-size: 12px;
+}
+
+
+.selector-contenedor {
+    font-size: 12px;
+}
+
+
+select {
+    padding: 6px 9px;
+
+    border:
+        1px solid #d1d5db;
+
+    border-radius: 6px;
+
+    background: white;
+}
+
+
+.grafico-contenedor {
+    width: 100%;
+
+    overflow: hidden;
+
+    background: #f9fafb;
+
+    border:
+        1px solid #e5e7eb;
+
+    border-radius: 7px;
+}
+
+
+#grafico-motor {
+    display: block;
+
+    width: 100%;
+    height: 210px;
+}
+
+
+.valor-actual {
+    margin-top: 7px;
+
+    text-align: right;
+
+    color: #6b7280;
+
+    font-size: 12px;
+}
+
+
+/* =========================
+   TABLA
+   ========================= */
 
 .tabla-contenedor {
     overflow-x: auto;
 }
 
+
 table {
     width: 100%;
 
-    border-collapse: collapse;
+    border-collapse:
+        collapse;
+
+    font-size: 13px;
 }
+
 
 th,
 td {
-    padding: 12px;
+    padding:
+        7px 10px;
 
     text-align: left;
 
@@ -191,25 +600,118 @@ td {
         1px solid #e5e7eb;
 }
 
+
 th {
     background: #f9fafb;
+
+    color: #374151;
 }
+
 
 tbody tr:hover {
     background: #f9fafb;
 }
 
 
-/* RESPONSIVE */
+/* =========================
+   TEMPERATURA
+   ========================= */
 
-@media (max-width: 700px) {
+.temperatura {
+    display: inline-block;
 
-    .resumen {
-        grid-template-columns: 1fr;
+    min-width: 65px;
+
+    padding:
+        3px 7px;
+
+    border-radius: 15px;
+
+    text-align: center;
+
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
+.temp-normal {
+    background: #dcfce7;
+    color: #166534;
+}
+
+
+.temp-media {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+
+.temp-alta {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+
+/* =========================
+   FOOTER
+   ========================= */
+
+footer {
+    padding:
+        5px 20px 20px;
+
+    text-align: center;
+
+    color: #9ca3af;
+
+    font-size: 11px;
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 750px) {
+
+    .header {
+        height: auto;
+
+        padding: 15px 20px;
     }
 
-    .robot {
-        gap: 30px;
+
+    .dashboard {
+        padding: 12px;
+    }
+
+
+    .resumen {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .fila-media {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .acelerometro {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .cabecera-grafico {
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+
+        gap: 10px;
     }
 
 }
