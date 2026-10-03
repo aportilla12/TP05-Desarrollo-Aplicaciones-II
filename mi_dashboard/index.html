@@ -12,21 +12,128 @@
 
 <body>
 
-    <header>
-        <h1>Unitree Dashboard</h1>
+    <header class="header">
+        <div>
+            <h1>Unitree Go2</h1>
+            <p>Dashboard de telemetría</p>
+        </div>
 
-        <p>
-            Estado:
-            <span id="estado">Desconectado</span>
-        </p>
+        <div id="estado" class="estado desconectado">
+            Desconectado
+        </div>
     </header>
 
-    <main>
-        <h2>Telemetría</h2>
+    <main class="dashboard">
 
-        <pre id="telemetria">
-Esperando datos del robot...
-        </pre>
+        <!-- Información general -->
+        <section class="resumen">
+
+            <div class="card">
+                <h2>Batería</h2>
+
+                <div class="valor-grande">
+                    <span id="bateria">--</span>%
+                </div>
+
+                <div class="barra">
+                    <div id="barra-bateria" class="barra-progreso"></div>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <h2>Inclinación</h2>
+
+                <p>
+                    Roll:
+                    <strong><span id="roll">--</span>°</strong>
+                </p>
+
+                <p>
+                    Pitch:
+                    <strong><span id="pitch">--</span>°</strong>
+                </p>
+
+                <p>
+                    Yaw:
+                    <strong><span id="yaw">--</span>°</strong>
+                </p>
+            </div>
+
+
+            <div class="card">
+                <h2>Simulación</h2>
+
+                <div class="valor-grande">
+                    <span id="tiempo">--</span>
+                </div>
+
+                <p>segundos</p>
+            </div>
+
+        </section>
+
+
+        <!-- Patas -->
+        <section class="card">
+            <h2>Apoyo de patas</h2>
+
+            <div class="robot">
+
+                <div>
+                    <span>FL</span>
+                    <div id="pata-FL" class="pata"></div>
+                </div>
+
+                <div>
+                    <span>FR</span>
+                    <div id="pata-FR" class="pata"></div>
+                </div>
+
+                <div>
+                    <span>RL</span>
+                    <div id="pata-RL" class="pata"></div>
+                </div>
+
+                <div>
+                    <span>RR</span>
+                    <div id="pata-RR" class="pata"></div>
+                </div>
+
+            </div>
+
+            <p class="leyenda">
+                Verde = apoyada · Gris = en el aire
+            </p>
+        </section>
+
+
+        <!-- Motores -->
+        <section class="card">
+            <h2>Motores</h2>
+
+            <div class="tabla-contenedor">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Motor</th>
+                            <th>Ángulo</th>
+                            <th>Velocidad</th>
+                            <th>Torque</th>
+                            <th>Temperatura</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tabla-motores">
+                    </tbody>
+
+                </table>
+
+            </div>
+        </section>
+
     </main>
 
     <script src="js/config.js"></script>
