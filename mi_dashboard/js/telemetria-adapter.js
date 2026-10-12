@@ -16,7 +16,7 @@ class TelemetriaAdapter {
         const imu = d.imu ?? {}, bms = d.bms ?? {};
         const rpy = Array.isArray(imu.rpy) ? imu.rpy : null;
         const aceleracion = imu.accelerometer ?? [];
-        const celdas = bms.voltajes ?? bms.cell_vol;
+        const celdas = bms.voltajes ?? bms.celdas ?? bms.cell_vol;
         const fuerzas = {};
         ['FR', 'FL', 'RR', 'RL'].forEach((pata, i) => {
             const valor = d.fuerzas?.[pata] ?? d.foot_force?.[i];
@@ -39,7 +39,7 @@ class TelemetriaAdapter {
                 ax: n(imu.ax ?? aceleracion[0]), ay: n(imu.ay ?? aceleracion[1]), az: n(imu.az ?? aceleracion[2])},
             bms: {...bms, soc: n(bms.soc), corriente: n(bms.corriente ?? bms.current),
                 temperatura: n(bms.temperatura ?? bms.temperature),
-                voltajes: Array.isArray(celdas) ? celdas.map(v => n(v) === null ? null : (bms.voltajes !== undefined ? v : v / 1000)) : []},
+                voltajes: Array.isArray(celdas) ? celdas.map(v => n(v) === null ? null : (bms.voltajes !== undefined || bms.celdas !== undefined ? v : v / 1000)) : []},
             fuerzas
         };
     }
