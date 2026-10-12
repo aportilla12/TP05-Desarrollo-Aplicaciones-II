@@ -383,8 +383,11 @@
         </section>
         <section class="card card-grafico">
             <h2>Detalle de batería</h2>
-            <p>Corriente: <strong id="corriente-bms">--</strong> mA</p>
-            <p>Temperatura: <strong id="temperatura-bms">--</strong> °C</p>
+            <div class="metricas-bms">
+                <div class="metrica-bms"><span>Corriente</span><strong><span id="corriente-bms">--</span> <small>mA</small></strong></div>
+                <div class="metrica-bms"><span>Temperatura</span><strong><span id="temperatura-bms">--</span> <small>°C</small></strong></div>
+            </div>
+            <h3 class="titulo-celdas">Voltajes de celdas</h3>
             <div id="celdas-bms">Voltajes de celdas: sin datos</div>
         </section>
 

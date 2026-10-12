@@ -19,8 +19,13 @@ function actualizarSesion(datos) {
     contenedor.replaceChildren();
     if (Array.isArray(bms.voltajes) && bms.voltajes.length) {
         bms.voltajes.forEach((voltaje, i) => {
-            const celda = document.createElement('span');
-            celda.textContent = `Celda ${i + 1}: ${Number.isFinite(voltaje) ? voltaje.toFixed(3) + ' V' : '--'}`;
+            const celda = document.createElement('div');
+            celda.className = 'celda-bms';
+            const etiqueta = document.createElement('span');
+            etiqueta.textContent = `Celda ${i + 1}`;
+            const valor = document.createElement('strong');
+            valor.textContent = Number.isFinite(voltaje) ? voltaje.toFixed(3) + ' V' : '--';
+            celda.append(etiqueta, valor);
             contenedor.appendChild(celda);
         });
     } else contenedor.textContent = 'Voltajes de celdas: sin datos';
