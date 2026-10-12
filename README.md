@@ -256,3 +256,19 @@ No se utilizaron frameworks ni librerías externas para la construcción del das
 
 TP05 - Desarrollo de Aplicaciones II  
 UADE
+
+## Captura y exportación
+
+El botón Capturar muestra guarda una copia completa de la última telemetría recibida.
+Exportar CSV descarga las capturas con campos anidados como columnas y fecha de captura.
+Las capturas permanecen en memoria durante la sesión; recargar la página las elimina.
+El gráfico IMU conserva las últimas 100 muestras de roll, pitch y yaw.
+El semáforo usa verde por debajo de 40 °C, amarillo de 40 a 60 °C inclusive y rojo por encima de 60 °C.
+
+### Validación pendiente con el servidor de la cátedra
+
+El detalle BMS espera provisionalmente `bms.corriente` en mA,
+`bms.temperatura` en °C y `bms.voltajes` como lista en V.
+Es necesario confirmar estos nombres y unidades con una respuesta real de `/telemetria`.
+Los campos ausentes se muestran sin datos y no se inventan valores.
+La integración demo/robot real todavía requiere probarse con ese backend.

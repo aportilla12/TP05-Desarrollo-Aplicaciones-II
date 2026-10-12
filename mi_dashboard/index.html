@@ -368,6 +368,23 @@
         </section>
 
 
+        <section class="card card-grafico">
+            <h2>Histórico IMU</h2>
+            <p>Roll (azul), Pitch (verde), Yaw (rojo) · Últimas 100 muestras</p>
+            <canvas id="grafico-imu" width="1000" height="240" aria-label="Histórico de orientación"></canvas>
+        </section>
+        <section class="card card-grafico">
+            <h2>Detalle de batería</h2>
+            <p>Corriente: <strong id="corriente-bms">--</strong> mA</p>
+            <p>Temperatura: <strong id="temperatura-bms">--</strong> °C</p>
+            <div id="celdas-bms">Voltajes de celdas: sin datos</div>
+        </section>
+        <section class="card card-grafico">
+            <h2>Capturas de la sesión</h2>
+            <button id="capturar" disabled>Capturar muestra</button>
+            <button id="exportar" disabled>Exportar CSV</button>
+            <p id="estado-capturas" role="status">0 muestras capturadas</p>
+        </section>
         <!-- =========================
              TABLA DE MOTORES
              ========================= -->
@@ -411,6 +428,7 @@
 
 
     <script src="js/config.js"></script>
+    <script src="js/sesion.js"></script>
     <script src="js/app.js"></script>
 
 </body>

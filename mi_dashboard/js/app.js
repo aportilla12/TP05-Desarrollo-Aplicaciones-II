@@ -178,6 +178,7 @@ function conectarWebSocket() {
         actualizarDashboard(
             datos
         );
+        actualizarSesion(datos);
     };
 
 
@@ -458,13 +459,13 @@ function obtenerClaseTemperatura(
         de seguridad del robot.
     */
 
-    if (temperatura >= 60) {
+    if (temperatura > 60) {
 
         return "temp-alta";
     }
 
 
-    if (temperatura >= 45) {
+    if (temperatura >= 40) {
 
         return "temp-media";
     }
