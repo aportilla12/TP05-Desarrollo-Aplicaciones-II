@@ -758,3 +758,9 @@ tbody tr:hover { background:var(--suave); }
 .serie-roll { color:#3b82f6; }.serie-pitch { color:#22c55e; }.serie-yaw { color:#f87171; }
 #celdas-bms span { padding:10px; background:var(--suave); border:1px solid var(--borde); border-radius:8px; }
 @media(max-width:750px) { .header { flex-wrap:wrap; padding:18px; }.header-actions { width:100%; justify-content:space-between; }.dashboard { padding:18px 12px; }.card { padding:18px; }.introduccion h2 { font-size:26px; }.capturas button { flex:1; }.capturas h2 { flex-basis:100%; margin-bottom:8px; } }
+
+/* Control compacto de tema y esquinas suaves en el encabezado. */
+#cambiar-tema { width:42px; height:42px; padding:0; display:inline-flex; align-items:center; justify-content:center; border-radius:50%; flex-shrink:0; }
+table { border-collapse:separate; border-spacing:0; }
+thead th:first-child { border-top-left-radius:12px; border-bottom-left-radius:12px; }
+thead th:last-child { border-top-right-radius:12px; border-bottom-right-radius:12px; }
