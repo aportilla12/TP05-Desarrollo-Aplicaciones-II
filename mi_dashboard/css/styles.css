@@ -785,3 +785,13 @@ thead th:last-child { border-top-right-radius:12px; border-bottom-right-radius:1
     .header-actions { gap:5px; }
     .estado { font-size:9px; padding:6px 7px; }
 }
+
+/* Lectura de motores: alineación central y divisiones discretas. */
+.tabla-contenedor th,
+.tabla-contenedor td { text-align:center; vertical-align:middle; }
+.tabla-contenedor th + th,
+.tabla-contenedor td + td { border-left:1px solid var(--borde); }
+@supports (color:color-mix(in srgb, black, white)) {
+    .tabla-contenedor th + th,
+    .tabla-contenedor td + td { border-left-color:color-mix(in srgb, var(--borde) 55%, transparent); }
+}
