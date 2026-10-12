@@ -272,3 +272,10 @@ El detalle BMS espera provisionalmente `bms.corriente` en mA,
 Es necesario confirmar estos nombres y unidades con una respuesta real de `/telemetria`.
 Los campos ausentes se muestran sin datos y no se inventan valores.
 La integración demo/robot real todavía requiere probarse con ese backend.
+
+## Apariencia del dashboard
+
+El botón Tema oscuro / Tema claro cambia la paleta de la interfaz y de los gráficos.
+La elección se guarda en el navegador; sin elección previa se usa el tema del sistema.
+La interfaz adapta tarjetas, controles y tablas a pantallas pequeñas.
+El aviso superior distingue espera, recepción de datos y reconexión.

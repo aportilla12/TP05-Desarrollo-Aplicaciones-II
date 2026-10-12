@@ -34,11 +34,11 @@ function dibujarIMU() {
     const maximo = Math.max(1, ...valores);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.font = '12px Arial';
-    ctx.fillStyle = '#374151';
+    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--muted');
     for (let i = 0; i <= 4; i++) {
         const y = 20 + i * 45;
         ctx.fillText(`${(maximo - (maximo - minimo) * i / 4).toFixed(1)}°`, 2, y + 4);
-        ctx.beginPath(); ctx.strokeStyle = '#e5e7eb';
+        ctx.beginPath(); ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--rejilla');
         ctx.moveTo(65, y); ctx.lineTo(980, y); ctx.stroke();
     }
     [['roll', '#2563eb'], ['pitch', '#16a34a'], ['yaw', '#dc2626']].forEach(([campo, color]) => {

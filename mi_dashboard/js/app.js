@@ -156,6 +156,7 @@ function conectarWebSocket() {
 
         estado.textContent =
             "Conectado";
+        document.getElementById('aviso-conexion').textContent = 'Conexión abierta. Esperando telemetría…';
 
 
         estado.classList.remove(
@@ -179,6 +180,7 @@ function conectarWebSocket() {
             datos
         );
         actualizarSesion(datos);
+        document.getElementById('aviso-conexion').textContent = 'Recibiendo telemetría en tiempo real.';
     };
 
 
@@ -200,6 +202,8 @@ function conectarWebSocket() {
 
         estado.textContent =
             "Desconectado";
+        document.getElementById('aviso-conexion').textContent = 'Sin conexión. Reintentando automáticamente…';
+        document.getElementById('capturar').disabled = true;
 
 
         estado.classList.remove(
@@ -602,7 +606,7 @@ function dibujarGrafico() {
 
 
     ctx.fillStyle =
-        "#f9fafb";
+        getComputedStyle(document.documentElement).getPropertyValue("--suave");
 
 
     ctx.fillRect(
@@ -667,7 +671,7 @@ function dibujarGrafico() {
 
 
             ctx.strokeStyle =
-                "#e5e7eb";
+                getComputedStyle(document.documentElement).getPropertyValue("--rejilla");
 
 
             ctx.lineWidth = 1;
@@ -690,7 +694,7 @@ function dibujarGrafico() {
 
 
             ctx.fillStyle =
-                "#6b7280";
+                getComputedStyle(document.documentElement).getPropertyValue("--muted");
 
 
             ctx.fillText(
@@ -782,7 +786,7 @@ function dibujarGrafico() {
 
 
     ctx.fillStyle =
-        "#6b7280";
+        getComputedStyle(document.documentElement).getPropertyValue("--muted");
 
 
     ctx.fillText(

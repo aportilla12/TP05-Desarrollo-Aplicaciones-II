@@ -19,15 +19,23 @@
             <p>Dashboard de telemetría en tiempo real</p>
         </div>
 
-        <div id="estado" class="estado desconectado">
+        <div class="header-actions"><button id="cambiar-tema" type="button">Tema oscuro</button><div id="estado" class="estado desconectado">
             Desconectado
         </div>
 
+        </div>
     </header>
 
 
     <main class="dashboard">
+        <div class="introduccion"><span class="eyebrow">UNITREE · MONITOR</span><h2>Estado del robot</h2><p>Telemetría, orientación y capturas en un solo lugar.</p><p id="aviso-conexion" role="status">Esperando conexión con el servidor de telemetría.</p></div>
 
+        <section class="card capturas">
+            <h2>Capturas de la sesión</h2>
+            <button id="capturar" disabled>Capturar muestra</button>
+            <button class="boton-secundario" id="exportar" disabled>Exportar CSV</button>
+            <p id="estado-capturas" role="status">0 muestras capturadas · Se guardan durante esta sesión</p>
+        </section>
         <!-- =========================
              FILA SUPERIOR
              ========================= -->
@@ -370,7 +378,7 @@
 
         <section class="card card-grafico">
             <h2>Histórico IMU</h2>
-            <p>Roll (azul), Pitch (verde), Yaw (rojo) · Últimas 100 muestras</p>
+            <div class="leyenda-imu"><span class="serie-roll">● Roll</span><span class="serie-pitch">● Pitch</span><span class="serie-yaw">● Yaw</span><span>Últimas 100 muestras · grados</span></div>
             <canvas id="grafico-imu" width="1000" height="240" aria-label="Histórico de orientación"></canvas>
         </section>
         <section class="card card-grafico">
@@ -379,19 +387,14 @@
             <p>Temperatura: <strong id="temperatura-bms">--</strong> °C</p>
             <div id="celdas-bms">Voltajes de celdas: sin datos</div>
         </section>
-        <section class="card card-grafico">
-            <h2>Capturas de la sesión</h2>
-            <button id="capturar" disabled>Capturar muestra</button>
-            <button id="exportar" disabled>Exportar CSV</button>
-            <p id="estado-capturas" role="status">0 muestras capturadas</p>
-        </section>
+
         <!-- =========================
              TABLA DE MOTORES
              ========================= -->
 
         <section class="card">
 
-            <h2>Motores</h2>
+            <h2>Motores</h2><p class="subtitulo">Temperatura: verde &lt;40 °C · amarillo 40–60 °C · rojo &gt;60 °C</p>
 
             <div class="tabla-contenedor">
 
@@ -430,6 +433,7 @@
     <script src="js/config.js"></script>
     <script src="js/sesion.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/tema.js"></script>
 
 </body>
 
