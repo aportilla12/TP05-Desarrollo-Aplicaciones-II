@@ -110,16 +110,7 @@ async function cargarInfoRobot() {
             `Unitree ${modelo.toUpperCase()}`;
 
 
-        // El G1 no informa patas
-        // en este TP.
-
-        if (
-            modelo.toLowerCase() === "g1"
-        ) {
-
-            seccionPatas.style.display =
-                "none";
-        }
+        configurarApoyos(modelo);
 
     } catch (error) {
 
@@ -161,7 +152,30 @@ function formatearDato(valor, decimales = 2) {
 // ACTUALIZAR DASHBOARD
 // ==============================
 
+function configurarApoyos(modelo) {
+    const humanoide = String(modelo).toLowerCase() === 'g1';
+    const clave = humanoide ? 'g1' : 'go2';
+    if (seccionPatas.dataset.modelo === clave) return;
+    seccionPatas.dataset.modelo = clave;
+    seccionPatas.style.display = '';
+    seccionPatas.querySelector('h2').textContent = humanoide ? 'Apoyo de pies' : 'Apoyo de patas';
+    const cuerpo = seccionPatas.querySelector('.cuerpo-robot');
+    cuerpo.classList.toggle('humanoide', humanoide);
+    const apoyos = humanoide
+        ? [['L_foot', 'Pie izquierdo'], ['R_foot', 'Pie derecho']]
+        : [['FL', 'FL · Delantera izquierda'], ['FR', 'FR · Delantera derecha'], ['RL', 'RL · Trasera izquierda'], ['RR', 'RR · Trasera derecha']];
+    cuerpo.replaceChildren();
+    apoyos.forEach(([id, nombre]) => {
+        const grupo = document.createElement('div'); grupo.className = 'grupo-pata';
+        const etiqueta = document.createElement('span'); etiqueta.textContent = nombre;
+        const indicador = document.createElement('div'); indicador.id = `pata-${id}`;
+        indicador.className = 'pata sin-datos'; indicador.title = 'Sin datos';
+        grupo.append(etiqueta, indicador); cuerpo.appendChild(grupo);
+    });
+}
+
 function actualizarDashboard(datos) {
+    if (datos.modelo) configurarApoyos(datos.modelo);
 
     // BATERÍA
 
@@ -217,34 +231,13 @@ function actualizarDashboard(datos) {
         datos.motores.length;
 
 
-    // PATAS
-
-    if (datos.fuerzas) {
-
-        actualizarPata(
-            "FL",
-            datos.fuerzas.FL
-        );
-
-
-        actualizarPata(
-            "FR",
-            datos.fuerzas.FR
-        );
-
-
-        actualizarPata(
-            "RL",
-            datos.fuerzas.RL
-        );
-
-
-        actualizarPata(
-            "RR",
-            datos.fuerzas.RR
-        );
+    // El backend G1 publica dos pies; Go2 publica cuatro patas.
+    if (seccionPatas.dataset.modelo === 'g1') {
+        actualizarPata('L_foot', datos.fuerzas?.L_foot ?? null);
+        actualizarPata('R_foot', datos.fuerzas?.R_foot ?? null);
+    } else {
+        ['FR', 'FL', 'RR', 'RL'].forEach(pata => actualizarPata(pata, datos.fuerzas?.[pata] ?? null));
     }
-
 
     // TABLA
 

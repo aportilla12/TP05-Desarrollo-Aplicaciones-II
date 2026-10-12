@@ -18,6 +18,10 @@ class TelemetriaAdapter {
         const aceleracion = imu.accelerometer ?? [];
         const celdas = bms.voltajes ?? bms.celdas ?? bms.cell_vol;
         const fuerzas = {};
+        ['R_foot', 'L_foot'].forEach(pie => {
+            const valor = d.fuerzas?.[pie];
+            fuerzas[pie] = valor === true ? 1 : valor === false ? 0 : n(valor) === null ? null : (valor > 0 ? 1 : 0);
+        });
         ['FR', 'FL', 'RR', 'RL'].forEach((pata, i) => {
             const valor = d.fuerzas?.[pata] ?? d.foot_force?.[i];
             fuerzas[pata] = valor === true ? 1 : valor === false ? 0 : n(valor) === null ? null : (valor > 0 ? 1 : 0);

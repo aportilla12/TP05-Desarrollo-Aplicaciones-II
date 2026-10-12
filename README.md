@@ -290,3 +290,6 @@ Flujo: WebSocket → ServicioTelemetria → TelemetriaAdapter → TelemetriaObse
 El navegador sigue necesitando un puente HTTP/WebSocket; estos patrones no convierten el socket TCP del simulador en WebSocket.
 Las fuerzas ausentes se indican sin datos y los valores positivos representan contacto.
 Las capturas conservan tanto los campos originales como los normalizados.
+
+El panel de apoyos se adapta al modelo: G1 muestra `L_foot` y `R_foot`;
+Go2 muestra FR, FL, RR y RL. Los datos ausentes se indican como sin datos.
