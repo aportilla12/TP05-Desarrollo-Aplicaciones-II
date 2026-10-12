@@ -822,3 +822,6 @@ select option { background:var(--superficie); color:var(--texto); }
     .selector-contenedor { width:100%; }
     .selector-contenedor select { flex:1; min-width:0; }
 }
+
+.temp-sin-datos { background:var(--suave); color:var(--muted); }
+.pata.sin-datos { background:var(--suave); border-style:dashed; }

@@ -20,7 +20,7 @@ function actualizarSesion(datos) {
     if (Array.isArray(bms.voltajes) && bms.voltajes.length) {
         bms.voltajes.forEach((voltaje, i) => {
             const celda = document.createElement('span');
-            celda.textContent = `Celda ${i + 1}: ${voltaje} V`;
+            celda.textContent = `Celda ${i + 1}: ${Number.isFinite(voltaje) ? voltaje.toFixed(3) + ' V' : '--'}`;
             contenedor.appendChild(celda);
         });
     } else contenedor.textContent = 'Voltajes de celdas: sin datos';

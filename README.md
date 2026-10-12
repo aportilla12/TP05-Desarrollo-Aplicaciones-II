@@ -267,11 +267,11 @@ El semáforo usa verde por debajo de 40 °C, amarillo de 40 a 60 °C inclusive y
 
 ### Validación pendiente con el servidor de la cátedra
 
-El detalle BMS espera provisionalmente `bms.corriente` en mA,
-`bms.temperatura` en °C y `bms.voltajes` como lista en V.
-Es necesario confirmar estos nombres y unidades con una respuesta real de `/telemetria`.
-Los campos ausentes se muestran sin datos y no se inventan valores.
-La integración demo/robot real todavía requiere probarse con ese backend.
+El Adapter acepta el formato del dashboard y el LowState de los archivos del simulador.
+Convierte `bms.current` a corriente en mA, `bms.temperature` a temperatura en °C
+ y `bms.cell_vol` de mV a V. Para `imu.rpy` y `motor_state.q` convierte radianes a grados.
+La integración completa requiere el puente FastAPI y una prueba con el simulador.
+El orden de `foot_force` se interpreta como FR, FL, RR, RL; verificarlo con el backend de la cátedra.
 
 ## Apariencia del dashboard
 
@@ -279,3 +279,14 @@ El botón con luna (activar oscuro) o sol (activar claro) cambia la paleta de la
 La elección se guarda en el navegador; sin elección previa se usa el tema del sistema.
 La interfaz adapta tarjetas, controles y tablas a pantallas pequeñas.
 El aviso superior distingue espera, recepción de datos y reconexión.
+
+## Patrones de integración
+
+- **Adapter — `telemetria-adapter.js`:** convierte mensajes del backend o LowState a un contrato uniforme. Los valores ausentes quedan como `null`; la interfaz muestra `--`.
+- **Observer — `telemetria-observable.js`:** administra suscriptores y devuelve una función para cancelar la suscripción. Aísla errores de cada observador.
+- **Facade — `telemetria-servicio.js`:** ofrece `conectar()`, `desconectar()`, `suscribir()` y `suscribirEstado()`. Gestiona WebSocket, reconexión, validación y distribución de datos.
+
+Flujo: WebSocket → ServicioTelemetria → TelemetriaAdapter → TelemetriaObservable → dashboard y capturas.
+El navegador sigue necesitando un puente HTTP/WebSocket; estos patrones no convierten el socket TCP del simulador en WebSocket.
+Las fuerzas ausentes se indican sin datos y los valores positivos representan contacto.
+Las capturas conservan tanto los campos originales como los normalizados.

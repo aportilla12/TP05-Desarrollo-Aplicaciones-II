@@ -135,94 +135,27 @@ async function cargarInfoRobot() {
 // WEBSOCKET
 // ==============================
 
-function conectarWebSocket() {
-
-    console.log(
-        "Conectando a:",
-        WS_URL
-    );
-
-
-    const ws =
-        new WebSocket(WS_URL);
-
-
-    ws.onopen = () => {
-
-        console.log(
-            "WebSocket conectado"
-        );
-
-
-        estado.textContent =
-            "Conectado";
-        document.getElementById('aviso-conexion').textContent = 'Conexión abierta. Esperando telemetría…';
-
-
-        estado.classList.remove(
-            "desconectado"
-        );
-
-
-        estado.classList.add(
-            "conectado"
-        );
+function mostrarEstadoConexion(valor) {
+    const recibiendo = valor === 'recibiendo';
+    const conectado = recibiendo || valor === 'esperando';
+    estado.textContent = conectado ? 'Conectado' : 'Desconectado';
+    estado.classList.toggle('conectado', conectado);
+    estado.classList.toggle('desconectado', !conectado);
+    const avisos = {
+        conectando: 'Conectando con el servidor de telemetría…',
+        esperando: 'Conexión abierta. Esperando telemetría…',
+        recibiendo: 'Recibiendo telemetría en tiempo real.',
+        'datos-invalidos': 'La última muestra es inválida. Esperando nuevos datos.',
+        error: 'Error de conexión con el servidor.',
+        desconectado: 'Sin conexión. Reintentando automáticamente…'
     };
-
-
-    ws.onmessage = (event) => {
-
-        const datos =
-            JSON.parse(event.data);
-
-
-        actualizarDashboard(
-            datos
-        );
-        actualizarSesion(datos);
-        document.getElementById('aviso-conexion').textContent = 'Recibiendo telemetría en tiempo real.';
-    };
-
-
-    ws.onerror = (error) => {
-
-        console.error(
-            "Error WebSocket:",
-            error
-        );
-    };
-
-
-    ws.onclose = () => {
-
-        console.log(
-            "WebSocket desconectado"
-        );
-
-
-        estado.textContent =
-            "Desconectado";
-        document.getElementById('aviso-conexion').textContent = 'Sin conexión. Reintentando automáticamente…';
-        document.getElementById('capturar').disabled = true;
-
-
-        estado.classList.remove(
-            "conectado"
-        );
-
-
-        estado.classList.add(
-            "desconectado"
-        );
-
-
-        setTimeout(
-            conectarWebSocket,
-            2000
-        );
-    };
+    document.getElementById('aviso-conexion').textContent = avisos[valor];
+    if (!recibiendo) document.getElementById('capturar').disabled = true;
 }
 
+function formatearDato(valor, decimales = 2) {
+    return Number.isFinite(valor) ? valor.toFixed(decimales) : '--';
+}
 
 // ==============================
 // ACTUALIZAR DASHBOARD
@@ -233,49 +166,49 @@ function actualizarDashboard(datos) {
     // BATERÍA
 
     bateria.textContent =
-        datos.bms.soc;
+        formatearDato(datos.bms.soc, 0);
 
 
     barraBateria.style.width =
-        `${datos.bms.soc}%`;
+        `${Number.isFinite(datos.bms.soc) ? Math.max(0, Math.min(100, datos.bms.soc)) : 0}%`;
 
 
     // ORIENTACIÓN
 
     roll.textContent =
-        datos.imu.roll.toFixed(2);
+        formatearDato(datos.imu.roll, 2);
 
 
     pitch.textContent =
-        datos.imu.pitch.toFixed(2);
+        formatearDato(datos.imu.pitch, 2);
 
 
     yaw.textContent =
-        datos.imu.yaw.toFixed(2);
+        formatearDato(datos.imu.yaw, 2);
 
 
     flechaYaw.style.transform =
-        `rotate(${datos.imu.yaw}deg)`;
+        `rotate(${datos.imu.yaw ?? 0}deg)`;
 
 
     // ACELERACIÓN
 
     ax.textContent =
-        datos.imu.ax.toFixed(2);
+        formatearDato(datos.imu.ax, 2);
 
 
     ay.textContent =
-        datos.imu.ay.toFixed(2);
+        formatearDato(datos.imu.ay, 2);
 
 
     az.textContent =
-        datos.imu.az.toFixed(2);
+        formatearDato(datos.imu.az, 2);
 
 
     // TIEMPO
 
     tiempo.textContent =
-        datos.ts.toFixed(1);
+        formatearDato(datos.ts, 1);
 
 
     // CANTIDAD DE MOTORES
@@ -360,6 +293,8 @@ function actualizarPata(
     }
 
 
+    pata.classList.toggle('sin-datos', apoyada === null);
+    pata.title = apoyada === null ? 'Sin datos' : apoyada === 1 ? 'Apoyada' : 'En el aire';
     if (apoyada === 1) {
 
         pata.classList.add(
@@ -404,20 +339,20 @@ function actualizarMotores(
             fila.innerHTML = `
 
                 <td>
-                    ${motor.nombre}
+                    ${escaparHTML(motor.nombre)}
                 </td>
 
                 <td>
-                    ${motor.angulo.toFixed(2)}°
+                    ${formatearDato(motor.angulo, 2)}°
                 </td>
 
                 <td>
-                    ${motor.velocidad.toFixed(2)}
+                    ${formatearDato(motor.velocidad, 2)}
                     rad/s
                 </td>
 
                 <td>
-                    ${motor.torque.toFixed(2)}
+                    ${formatearDato(motor.torque, 2)}
                     Nm
                 </td>
 
@@ -429,7 +364,7 @@ function actualizarMotores(
                             ${claseTemperatura}
                         ">
 
-                        ${motor.temperatura.toFixed(1)}
+                        ${formatearDato(motor.temperatura, 1)}
                         °C
 
                     </span>
@@ -463,6 +398,7 @@ function obtenerClaseTemperatura(
         de seguridad del robot.
     */
 
+    if (!Number.isFinite(temperatura)) return 'temp-sin-datos';
     if (temperatura > 60) {
 
         return "temp-alta";
@@ -524,9 +460,7 @@ selectorMotor.addEventListener(
     () => {
 
         motorSeleccionado =
-            Number(
-                selectorMotor.value
-            );
+            selectorMotor.value;
 
 
         historialAngulos = [];
@@ -562,9 +496,8 @@ function actualizarGrafico(
     }
 
 
-    historialAngulos.push(
-        motor.angulo
-    );
+    if (!Number.isFinite(motor.angulo)) { anguloActual.textContent = '--'; return; }
+    historialAngulos.push(motor.angulo);
 
 
     if (
@@ -577,7 +510,7 @@ function actualizarGrafico(
 
 
     anguloActual.textContent =
-        motor.angulo.toFixed(2);
+        formatearDato(motor.angulo, 2);
 
 
     dibujarGrafico();
@@ -810,4 +743,14 @@ function dibujarGrafico() {
 
 cargarInfoRobot();
 
-conectarWebSocket();
+const servicioTelemetria = new ServicioTelemetria(WS_URL);
+servicioTelemetria.suscribirEstado(mostrarEstadoConexion);
+servicioTelemetria.suscribir(actualizarDashboard);
+servicioTelemetria.suscribir(actualizarSesion);
+servicioTelemetria.conectar();
+window.addEventListener('pagehide', () => servicioTelemetria.desconectar());
+window.addEventListener('pageshow', () => servicioTelemetria.conectar());
+
+function escaparHTML(texto) {
+    return String(texto).replace(/[&<>"']/g, c => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[c]));
+}
