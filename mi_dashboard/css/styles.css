@@ -854,3 +854,11 @@ select option { background:var(--superficie); color:var(--texto); }
 #celdas-bms .celda-bms>span { display:block; padding:0; border:0; background:none; color:var(--muted); font-size:11px; margin-bottom:6px; }
 .celda-bms strong { font-size:15px; font-variant-numeric:tabular-nums; }
 @media(max-width:750px) { #celdas-bms { grid-template-columns:repeat(2,minmax(0,1fr)); }.metrica-bms { padding:12px; }.metrica-bms>strong { font-size:20px; } }
+
+/* Leyenda térmica: rangos visibles sin depender únicamente del color. */
+.leyenda-temperatura { display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; margin:4px 0 18px; }
+.leyenda-temperatura-titulo { color:var(--muted); font-size:12px; font-weight:600; margin-right:4px; }
+.rango-temperatura { display:inline-flex; align-items:center; gap:8px; padding:7px 10px; border:1px solid var(--borde); border-radius:8px; background:var(--suave); font-size:12px; color:var(--texto); white-space:nowrap; }
+.punto-termico { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+.termico-verde { background:#22c55e; }.termico-amarillo { background:#f59e0b; }.termico-rojo { background:#ef4444; }
+@media(max-width:750px) { .leyenda-temperatura { gap:8px; }.leyenda-temperatura-titulo { flex-basis:100%; }.rango-temperatura { font-size:11px; padding:7px 8px; } }
