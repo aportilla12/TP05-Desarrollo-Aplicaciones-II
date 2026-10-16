@@ -293,3 +293,16 @@ Las capturas conservan tanto los campos originales como los normalizados.
 
 El panel de apoyos se adapta al modelo: G1 muestra `L_foot` y `R_foot`;
 Go2 muestra FR, FL, RR y RL. Los datos ausentes se indican como sin datos.
+
+## Gráficos interactivos
+
+Los gráficos permiten inspeccionar una muestra pasando el cursor o tocando el área de trazado.
+La medición aparece debajo del gráfico con el tiempo del backend y la unidad.
+También se pueden recorrer muestras con las flechas del teclado al enfocar el gráfico.
+Cada gráfico tiene una pausa independiente: congela la visualización, pero no detiene
+la recepción de telemetría ni la captura de muestras. Al reanudar muestra las últimas 100 muestras.
+El selector del motor permite elegir ángulo, velocidad, torque o temperatura.
+Al cambiar de variable se reanuda el gráfico; al cambiar de motor se inicia un historial nuevo.
+Las casillas permiten ocultar o mostrar series IMU, ajustando la escala a las visibles.
+Se muestran mínimo, máximo y promedio de los datos visibles; los valores ausentes se excluyen.
+La implementación usa Canvas y no requiere librerías externas.

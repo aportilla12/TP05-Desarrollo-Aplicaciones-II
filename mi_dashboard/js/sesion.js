@@ -2,13 +2,18 @@
 let ultimaMuestra = null;
 const muestrasCapturadas = [];
 const historialIMU = [];
+const graficoIMUInteractivo = new GraficoInteractivo(document.getElementById('grafico-imu'), [
+    {campo:'roll',nombre:'Roll',unidad:'°',color:'#3b82f6'},
+    {campo:'pitch',nombre:'Pitch',unidad:'°',color:'#22c55e'},
+    {campo:'yaw',nombre:'Yaw',unidad:'°',color:'#f87171'}
+]);
 const botonCapturar = document.getElementById('capturar');
 const botonExportar = document.getElementById('exportar');
 
 function actualizarSesion(datos) {
     ultimaMuestra = JSON.parse(JSON.stringify(datos));
     botonCapturar.disabled = false;
-    historialIMU.push({ ...datos.imu });
+    historialIMU.push({ ...datos.imu, ts:datos.ts });
     if (historialIMU.length > 100) historialIMU.shift();
     dibujarIMU();
     // Campos provisionales: confirmar nombres y unidades con el backend de la cátedra.
@@ -32,33 +37,7 @@ function actualizarSesion(datos) {
 }
 
 function dibujarIMU() {
-    const canvas = document.getElementById('grafico-imu');
-    const ctx = canvas.getContext('2d');
-    const valores = historialIMU.flatMap(m => [m.roll, m.pitch, m.yaw]).filter(Number.isFinite);
-    const minimo = Math.min(-1, ...valores);
-    const maximo = Math.max(1, ...valores);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.font = '12px Arial';
-    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--muted');
-    for (let i = 0; i <= 4; i++) {
-        const y = 20 + i * 45;
-        ctx.fillText(`${(maximo - (maximo - minimo) * i / 4).toFixed(1)}°`, 2, y + 4);
-        ctx.beginPath(); ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--rejilla');
-        ctx.moveTo(65, y); ctx.lineTo(980, y); ctx.stroke();
-    }
-    [['roll', '#2563eb'], ['pitch', '#16a34a'], ['yaw', '#dc2626']].forEach(([campo, color]) => {
-        ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = 2;
-        let iniciado = false;
-        historialIMU.forEach((m, i) => {
-            if (!Number.isFinite(m[campo])) { iniciado = false; return; }
-            const x = 65 + i / 99 * 915;
-            const y = 200 - (m[campo] - minimo) / (maximo - minimo) * 180;
-            if (iniciado) ctx.lineTo(x, y); else ctx.moveTo(x, y);
-            iniciado = true;
-        });
-        ctx.stroke();
-    });
-    ctx.fillText('Muestras en orden de recepción', 65, 230);
+    graficoIMUInteractivo.renderizar(historialIMU);
 }
 
 function aplanarMuestra(valor, prefijo = '', resultado = {}) {

@@ -75,6 +75,21 @@ const ctx =
 let motorSeleccionado = null;
 
 let historialAngulos = [];
+const muestrasMotor = [];
+let campoMotor = 'angulo';
+const variablesMotor = {
+    angulo: {nombre:'Ángulo', unidad:'°'}, velocidad:{nombre:'Velocidad', unidad:'rad/s'},
+    torque:{nombre:'Torque', unidad:'Nm'}, temperatura:{nombre:'Temperatura', unidad:'°C'}
+};
+const selectorVariable = document.createElement('select');
+selectorVariable.setAttribute('aria-label', 'Variable del motor');
+for (const [campo, info] of Object.entries(variablesMotor)) {
+    const opcion = document.createElement('option'); opcion.value = campo; opcion.textContent = info.nombre;
+    selectorVariable.appendChild(opcion);
+}
+selectorMotor.parentNode.appendChild(selectorVariable);
+const graficoMotorInteractivo = new GraficoInteractivo(canvas, [{campo:'valor', nombre:'Ángulo', unidad:'°', color:'#3b82f6'}]);
+selectorVariable.addEventListener('change', () => { campoMotor = selectorVariable.value; graficoMotorInteractivo.reiniciar(); dibujarGrafico(); });
 
 const MAX_PUNTOS = 100;
 
@@ -261,7 +276,7 @@ function actualizarDashboard(datos) {
     // GRÁFICO
 
     actualizarGrafico(
-        datos.motores
+        datos.motores, datos.ts
     );
 }
 
@@ -457,6 +472,8 @@ selectorMotor.addEventListener(
 
 
         historialAngulos = [];
+        muestrasMotor.length = 0;
+        graficoMotorInteractivo.reiniciar();
     }
 );
 
@@ -465,270 +482,23 @@ selectorMotor.addEventListener(
 // ACTUALIZAR GRÁFICO
 // ==============================
 
-function actualizarGrafico(
-    motores
-) {
-
-    if (
-        motorSeleccionado === null
-    ) {
-        return;
-    }
-
-
-    const motor =
-        motores.find(
-            (m) =>
-                m.id ===
-                motorSeleccionado
-        );
-
-
-    if (!motor) {
-        return;
-    }
-
-
-    if (!Number.isFinite(motor.angulo)) { anguloActual.textContent = '--'; return; }
-    historialAngulos.push(motor.angulo);
-
-
-    if (
-        historialAngulos.length >
-        MAX_PUNTOS
-    ) {
-
-        historialAngulos.shift();
-    }
-
-
-    anguloActual.textContent =
-        formatearDato(motor.angulo, 2);
-
-
+function actualizarGrafico(motores, ts) {
+    const motor = motores.find(m => m.id === motorSeleccionado);
+    if (!motor) return;
+    muestrasMotor.push({...motor, ts});
+    if (muestrasMotor.length > MAX_PUNTOS) muestrasMotor.shift();
     dibujarGrafico();
 }
 
-
-// ==============================
-// DIBUJAR GRÁFICO
-// ==============================
-
 function dibujarGrafico() {
-
-    const ancho =
-        canvas.width;
-
-    const alto =
-        canvas.height;
-
-
-    ctx.clearRect(
-        0,
-        0,
-        ancho,
-        alto
-    );
-
-
-    ctx.fillStyle =
-        getComputedStyle(document.documentElement).getPropertyValue("--suave");
-
-
-    ctx.fillRect(
-        0,
-        0,
-        ancho,
-        alto
-    );
-
-
-    const margenIzquierdo = 55;
-    const margenDerecho = 20;
-    const margenSuperior = 15;
-    const margenInferior = 30;
-
-
-    const anchoGrafico =
-        ancho -
-        margenIzquierdo -
-        margenDerecho;
-
-
-    const altoGrafico =
-        alto -
-        margenSuperior -
-        margenInferior;
-
-
-    const minimo = -180;
-    const maximo = 180;
-
-
-    const niveles = [
-        -180,
-        -90,
-        0,
-        90,
-        180
-    ];
-
-
-    ctx.font =
-        "12px Arial";
-
-
-    niveles.forEach(
-        (nivel) => {
-
-            const proporcion =
-                (nivel - minimo) /
-                (maximo - minimo);
-
-
-            const y =
-                margenSuperior +
-                altoGrafico -
-                proporcion *
-                altoGrafico;
-
-
-            ctx.beginPath();
-
-
-            ctx.strokeStyle =
-                getComputedStyle(document.documentElement).getPropertyValue("--rejilla");
-
-
-            ctx.lineWidth = 1;
-
-
-            ctx.moveTo(
-                margenIzquierdo,
-                y
-            );
-
-
-            ctx.lineTo(
-                ancho -
-                margenDerecho,
-                y
-            );
-
-
-            ctx.stroke();
-
-
-            ctx.fillStyle =
-                getComputedStyle(document.documentElement).getPropertyValue("--muted");
-
-
-            ctx.fillText(
-                `${nivel}°`,
-                8,
-                y + 4
-            );
-        }
-    );
-
-
-    if (
-        historialAngulos.length <
-        2
-    ) {
-        return;
-    }
-
-
-    ctx.beginPath();
-
-
-    ctx.strokeStyle =
-        "#2563eb";
-
-
-    ctx.lineWidth = 3;
-
-
-    historialAngulos.forEach(
-        (valor, indice) => {
-
-            const x =
-                margenIzquierdo +
-                (
-                    indice /
-                    (MAX_PUNTOS - 1)
-                ) *
-                anchoGrafico;
-
-
-            const valorLimitado =
-                Math.max(
-                    minimo,
-                    Math.min(
-                        maximo,
-                        valor
-                    )
-                );
-
-
-            const proporcion =
-                (
-                    valorLimitado -
-                    minimo
-                ) /
-                (
-                    maximo -
-                    minimo
-                );
-
-
-            const y =
-                margenSuperior +
-                altoGrafico -
-                proporcion *
-                altoGrafico;
-
-
-            if (indice === 0) {
-
-                ctx.moveTo(
-                    x,
-                    y
-                );
-
-            } else {
-
-                ctx.lineTo(
-                    x,
-                    y
-                );
-            }
-        }
-    );
-
-
-    ctx.stroke();
-
-
-    ctx.fillStyle =
-        getComputedStyle(document.documentElement).getPropertyValue("--muted");
-
-
-    ctx.fillText(
-        "← historial",
-        margenIzquierdo,
-        alto - 7
-    );
-
-
-    ctx.fillText(
-        "ahora →",
-        ancho - 75,
-        alto - 7
-    );
+    const info = variablesMotor[campoMotor];
+    graficoMotorInteractivo.series = [{campo:'valor', nombre:info.nombre, unidad:info.unidad, color:'#3b82f6'}];
+    const muestras = muestrasMotor.map(m => ({ts:m.ts, valor:m[campoMotor]}));
+    graficoMotorInteractivo.renderizar(muestras);
+    const ultima = graficoMotorInteractivo.datos.at(-1);
+    anguloActual.textContent = formatearDato(ultima?.valor);
+    document.getElementById('unidad-motor').textContent = info.unidad;
 }
-
 
 // ==============================
 // INICIO
