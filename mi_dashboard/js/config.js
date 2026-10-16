@@ -1,4 +1,4 @@
-const ROBOT_IP = "10.0.2.15";
+const ROBOT_IP = "10.100.70.132";
 const ROBOT_PORT = "8001";
 
 const API_URL = `http://${ROBOT_IP}:${ROBOT_PORT}`;
