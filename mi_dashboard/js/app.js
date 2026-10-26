@@ -346,8 +346,8 @@ function actualizarMotores(
 
             fila.innerHTML = `
 
-                <td>
-                    ${escaparHTML(motor.nombre)}
+                <td title="${escaparHTML(motor.nombre)}">
+                    ${escaparHTML(nombreMotorDescriptivo(motor.nombre))}
                 </td>
 
                 <td>
@@ -445,7 +445,8 @@ function cargarSelectorMotores(
 
 
             opcion.textContent =
-                motor.nombre;
+                nombreMotorDescriptivo(motor.nombre);
+            opcion.title = motor.nombre;
 
 
             selectorMotor.appendChild(
@@ -516,4 +517,32 @@ window.addEventListener('pageshow', () => servicioTelemetria.conectar());
 
 function escaparHTML(texto) {
     return String(texto).replace(/[&<>"']/g, c => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[c]));
+}
+
+// Traducción de presentación: no altera los nombres recibidos ni las capturas CSV.
+function nombreMotorDescriptivo(nombre) {
+    const original = String(nombre ?? '');
+    const clave = original.toLowerCase().replace(/_joint$/, '');
+    const articulaciones = {
+        hip_yaw:'Cadera · giro', hip_roll:'Cadera · inclinación lateral', hip_pitch:'Cadera · flexión',
+        knee:'Rodilla', ankle_pitch:'Tobillo · flexión', ankle_roll:'Tobillo · inclinación lateral',
+        shoulder_pitch:'Hombro · flexión', shoulder_roll:'Hombro · apertura lateral', shoulder_yaw:'Hombro · giro',
+        elbow:'Codo', wrist_roll:'Muñeca · rotación longitudinal', wrist_pitch:'Muñeca · flexión', wrist_yaw:'Muñeca · giro',
+        torso_yaw:'Torso · giro', torso_roll:'Torso · inclinación lateral', torso_pitch:'Torso · flexión',
+        waist_yaw:'Cintura · giro', waist_roll:'Cintura · inclinación lateral', waist_pitch:'Cintura · flexión'
+    };
+    const patas = {fr:'delantera derecha', fl:'delantera izquierda', rr:'trasera derecha', rl:'trasera izquierda'};
+    const cuadrupedo = clave.match(/^(fr|fl|rr|rl)_(hip|thigh|calf)$/);
+    if (cuadrupedo) {
+        const parte = {hip:'Cadera', thigh:'Muslo', calf:'Rodilla'}[cuadrupedo[2]];
+        return `${parte} · pata ${patas[cuadrupedo[1]]}`;
+    }
+    const lateral = clave.match(/^(l|r|left|right)_(.+)$/);
+    if (lateral && articulaciones[lateral[2]]) {
+        const lado = ['l','left'].includes(lateral[1]) ? 'izquierdo' : 'derecho';
+        const partes = articulaciones[lateral[2]].split(' · ');
+        const genero = ['Cadera','Rodilla','Muñeca'].includes(partes[0]) ? lado.replace(/o$/, 'a') : lado;
+        return `${partes[0]} ${genero}${partes[1] ? ' · ' + partes[1] : ''}`;
+    }
+    return articulaciones[clave] ?? original;
 }

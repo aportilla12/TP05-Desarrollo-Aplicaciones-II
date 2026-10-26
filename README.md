@@ -306,3 +306,9 @@ Al cambiar de variable se reanuda el gráfico; al cambiar de motor se inicia un 
 Las casillas permiten ocultar o mostrar series IMU, ajustando la escala a las visibles.
 Se muestran mínimo, máximo y promedio de los datos visibles; los valores ausentes se excluyen.
 La implementación usa Canvas y no requiere librerías externas.
+
+## Nombres de motores en la interfaz
+
+La tabla y el selector muestran descripciones en español de las articulaciones G1 y Go2.
+El identificador técnico original se conserva en la ayuda al pasar el cursor y en los datos exportados.
+Los nombres no reconocidos se muestran sin cambios. Histórico IMU, Roll, Pitch y Yaw mantienen sus nombres.
