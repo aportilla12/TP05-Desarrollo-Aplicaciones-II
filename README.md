@@ -312,3 +312,8 @@ La implementación usa Canvas y no requiere librerías externas.
 La tabla y el selector muestran descripciones en español de las articulaciones G1 y Go2.
 El identificador técnico original se conserva en la ayuda al pasar el cursor y en los datos exportados.
 Los nombres no reconocidos se muestran sin cambios. Histórico IMU, Roll, Pitch y Yaw mantienen sus nombres.
+
+## Integrantes
+
+- Agustina Altea Portilla
+- Wanda Schafer
